@@ -14,7 +14,7 @@ export const UIManager = {
      * @returns {HTMLVideoElement} - El elemento <video> al que se le debe asignar el stream.
      */
     createVideoElement: (userId) => {
-
+        
         // 1. Crear el contenedor principal
         const participantDiv = document.createElement('div');
         participantDiv.classList.add('video-participant');
@@ -30,7 +30,7 @@ export const UIManager = {
         // 3. Crear la etiqueta de nombre
         const nameTag = document.createElement('span');
         // Usamos un nombre temporal. La lista de participantes tendrá el nombre "real".
-        nameTag.innerText = `Remoto ${userId.slice(0, 6)}`;
+        nameTag.innerText = `Remoto ${userId.slice(0, 6)}`; 
 
         // 4. Armar la tarjeta
         participantDiv.appendChild(videoElement);
@@ -52,7 +52,7 @@ export const UIManager = {
     removeVideoElement: (userId) => {
         // Ahora buscamos el contenedor principal por el ID que le asignamos
         const participantDiv = document.getElementById(`participant-container-${userId}`);
-
+        
         if (participantDiv) {
             participantDiv.remove();
         } else {
@@ -65,7 +65,7 @@ export const UIManager = {
      * @param {Array<Object>} participants - Array de objetos {id, name}
      */
     updateParticipantList: (participants) => {
-
+        
         // Verificamos que el elemento de la lista exista
         if (!participantListElement) {
             console.warn('Elemento #participantListElement no encontrado en el DOM.');
@@ -73,7 +73,7 @@ export const UIManager = {
         }
 
         // 1. Limpiar la lista vieja
-        participantListElement.innerHTML = '';
+        participantListElement.innerHTML = ''; 
 
         // 2. Crear y añadir los nuevos elementos de la lista
         participants.forEach(participant => {
