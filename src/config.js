@@ -1,7 +1,7 @@
 const config = {
     WEBSOCKET_URL:
 
-        'https://simple-video-app-maovares.azurewebsites.net'
+        'wss://webappserver-bwanh4d0gbc7brhc.canadacentral-01.azurewebsites.net'
 };
 
 export default config;
