@@ -1,26 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
+    <meta charset="UTF-m-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Call</title>
     <style>
+        :root {
+            --dark-bg: #1a1b26;
+            --main-bg: #24283b;
+            --controls-bg: #1f202e;
+            --sidebar-bg: #2a2d3e;
+            --text-color: #c0caf5;
+            --video-bg: #000;
+            --red-btn: #f7768e;
+            --green-btn: #9ece6a;
+            --blue-btn: #7aa2f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+        }
+
+        /* Diseño principal con CSS Grid:
+          - Fila 1: "main" (videos) y "sidebar" (participantes)
+          - Fila 2: "controls" (botones) y "sidebar" (participantes)
+        */
+        .app-container {
+            display: grid;
+            grid-template-areas:
+                "main sidebar"
+                "controls sidebar";
+            grid-template-columns: 1fr 300px; /* Sidebar de 300px */
+            grid-template-rows: 1fr auto; /* Controles de tamaño automático */
+            height: 100vh;
+        }
+
+        /* --- 1. Área de Video Principal --- */
         #videoGrid {
+            grid-area: main;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1rem;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .video-participant {
+            position: relative;
+            background-color: var(--video-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Etiqueta con el nombre sobre el video */
+        .video-participant span {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
         }
 
         video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block; /* Elimina espacio extra */
+        }
+
+        /* --- 2. Barra de Controles --- */
+        .controls-bar {
+            grid-area: controls;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--controls-bg);
+            gap: 1rem;
+        }
+
+        .control-btn {
+            font-size: 1.5rem; /* Ideal para iconos */
+            padding: 0.75rem;
+            border-radius: 50%; /* Botones redondos */
+            border: none;
+            cursor: pointer;
+            background-color: var(--main-bg);
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background-color: var(--blue-btn);
+            color: var(--dark-bg);
+        }
+        
+        .control-btn.hang-up {
+            background-color: var(--red-btn);
+            color: white;
+        }
+        .control-btn.hang-up:hover {
+            opacity: 0.8;
+        }
+
+        /* --- 3. Sidebar de Participantes --- */
+        .sidebar {
+            grid-area: sidebar;
+            background-color: var(--sidebar-bg);
+            padding: 1rem;
+            border-left: 1px solid var(--main-bg);
+            overflow-y: auto;
+        }
+
+        .sidebar h4 {
+            border-bottom: 1px solid var(--main-bg);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #participantListElement {
+            list-style: none;
+        }
+
+        #participantListElement li {
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
         }
     </style>
 </head>
 
 <body>
-    <div id="videoGrid">
-        <video id="localVideo" autoplay playsinline muted></video>
+    <div class="app-container">
+
+        <div id="videoGrid">
+            
+            <div class="video-participant">
+                <video id="localVideo" autoplay playsinline muted></video>
+                <span>Tú (Local)</span>
+            </div>
+
+            </div>
+
+        <div class="controls-bar">
+            <button id="toggleAudioBtn" class="control-btn">🎤</button>
+            <button id="toggleVideoBtn" class="control-btn">📹</button>
+            <button id="hangUpBtn" class="control-btn hang-up">📞</button>
+        </div>
+
+        <div class="sidebar">
+            <h4>Participantes</h4>
+            <ul id="participantListElement">
+                </ul>
+        </div>
+
     </div>
+
     <script type="module" src="script.js"></script>
 </body>
 
